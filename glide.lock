@@ -1,0 +1,33 @@
+hash: 1e7391b2584a4a7ae34caa36770017375bc3a704e3e6c4849b561e762000be75
+updated: 2017-02-21T16:16:34.768383765+01:00
+imports:
+- name: github.com/deshboard/boilerplate-proto
+  version: fed797238468483514aee67845bdfd45b3d6c9c3
+- name: github.com/golang/protobuf
+  version: 69b215d01a5606c843240eab4937eab3acee6530
+  subpackages:
+  - proto
+- name: golang.org/x/net
+  version: 61557ac0112b576429a0df080e1c2cef5dfbb642
+  subpackages:
+  - context
+  - http2
+  - http2/hpack
+  - idna
+  - internal/timeseries
+  - lex/httplex
+  - trace
+- name: google.golang.org/grpc
+  version: 708a7f9f3283aa2d4f6132d287d78683babe55c8
+  subpackages:
+  - codes
+  - credentials
+  - grpclog
+  - internal
+  - metadata
+  - naming
+  - peer
+  - stats
+  - tap
+  - transport
+testImports: []
