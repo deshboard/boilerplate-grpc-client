@@ -6,7 +6,7 @@ import (
 	"io"
 	"log"
 
-	"github.com/deshboard/boilerplate-grpc-client/protobuf"
+	"github.com/deshboard/boilerplate-grpc-client/model/boilerplate"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -23,10 +23,10 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := protobuf.NewBoilerplateClient(conn)
+	c := boilerplate.NewBoilerplateClient(conn)
 
 	if *stream {
-		str, err := c.StreamingMethod(context.Background(), &protobuf.Request{})
+		str, err := c.StreamingMethod(context.Background(), &boilerplate.Request{})
 		if err != nil {
 			log.Fatalf("method call failed: %v", err)
 		}
@@ -42,7 +42,7 @@ func main() {
 			fmt.Println("ok")
 		}
 	} else {
-		_, err = c.Method(context.Background(), &protobuf.Request{})
+		_, err = c.Method(context.Background(), &boilerplate.Request{})
 		if err != nil {
 			log.Fatalf("method call failed: %v", err)
 		} else {

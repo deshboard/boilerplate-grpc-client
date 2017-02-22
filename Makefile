@@ -10,7 +10,7 @@ GO_SOURCE_FILES = $(shell find . -type f -name "*.go" -not -name "bindata.go" -n
 GO_PACKAGES = $(shell go list ./... | grep -v /vendor/)
 GODOTENV=$(shell if which godotenv > /dev/null 2>&1; then echo "godotenv"; fi)
 
-.PHONY: install build protobuf run watch clean check test watch-test fmt csfix envcheck help
+.PHONY: install build proto run watch clean check test watch-test fmt csfix envcheck help
 .DEFAULT_GOAL := help
 
 install: ## Install dependencies
@@ -19,9 +19,9 @@ install: ## Install dependencies
 build: ## Build a binary
 	go build ${LDFLAGS} -o build/${BINARY_NAME}
 
-protobuf: ## Generate code from protocol buffer
-	@mkdir -p protobuf/
-	protoc -I vendor/github.com/deshboard/boilerplate-proto/ vendor/github.com/deshboard/boilerplate-proto/boilerplate.proto  --go_out=plugins=grpc,import_path=protobuf:protobuf
+proto: ## Generate code from protocol buffer
+	@mkdir -p model/boilerplate/
+	protoc -I vendor/github.com/deshboard/boilerplate-proto/ vendor/github.com/deshboard/boilerplate-proto/boilerplate.proto  --go_out=plugins=grpc:model/boilerplate
 
 run: build ## Build and execute a binary
 ifdef GODOTENV
