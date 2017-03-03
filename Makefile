@@ -8,10 +8,12 @@ LDFLAGS = -ldflags "-X ${PACKAGE}/app.Version=${VERSION} -X ${PACKAGE}/app.Commi
 BINARY_NAME = $(shell go list . | cut -d '/' -f 3)
 GO_SOURCE_FILES = $(shell find . -type f -name "*.go" -not -name "bindata.go" -not -path "./vendor/*")
 GO_PACKAGES = $(shell go list ./... | grep -v /vendor/)
-GODOTENV=$(shell if which godotenv > /dev/null 2>&1; then echo "godotenv"; fi)
+PROTO_PATH = vendor/github.com/deshboard/boilerplate-proto
 
-.PHONY: install build proto run watch clean check test watch-test fmt csfix envcheck help
+.PHONY: setup install build proto run watch clean check test watch-test fmt csfix envcheck help
 .DEFAULT_GOAL := help
+
+setup: envcheck install ## Setup the project for development
 
 install: ## Install dependencies
 	@glide install
@@ -20,21 +22,17 @@ build: ## Build a binary
 	go build ${LDFLAGS} -o build/${BINARY_NAME}
 
 proto: ## Generate code from protocol buffer
-	@mkdir -p model/boilerplate/
-	protoc -I vendor/github.com/deshboard/boilerplate-proto/ vendor/github.com/deshboard/boilerplate-proto/boilerplate.proto  --go_out=plugins=grpc:model/boilerplate
+	@mkdir -p model
+	protoc -I ${PROTO_PATH} ${PROTO_PATH}/boilerplate.proto  --go_out=plugins=grpc:model
 
 run: build ## Build and execute a binary
-ifdef GODOTENV
-	${GODOTENV} build/${BINARY_NAME} ${ARGS}
-else
 	build/${BINARY_NAME} ${ARGS}
-endif
 
 watch: ## Watch for file changes and run the built binary
 	reflex -s -t 3s -d none -r '\.go$$' -- $(MAKE) ARGS="${ARGS}" run
 
 clean: ## Clean the working area
-	rm -rf build/
+	rm -rf build/ vendor/
 
 check: test fmt ## Run tests and linters
 
@@ -54,7 +52,6 @@ envcheck: ## Check environment for all the necessary requirements
 	$(call executable_check,Go,go)
 	$(call executable_check,Glide,glide)
 	$(call executable_check,Reflex,reflex)
-	$(call executable_check,Godotenv,godotenv)
 	$(call executable_check,protoc,protoc)
 
 help:

@@ -6,7 +6,7 @@ import (
 	"io"
 	"log"
 
-	"github.com/deshboard/boilerplate-grpc-client/model/boilerplate"
+	deshboard "github.com/deshboard/boilerplate-grpc-client/model"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -23,10 +23,10 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := boilerplate.NewBoilerplateClient(conn)
+	c := deshboard.NewBoilerplateClient(conn)
 
 	if *stream {
-		str, err := c.StreamingMethod(context.Background(), &boilerplate.Request{})
+		str, err := c.StreamingMethod(context.Background(), &deshboard.BoilerplateRequest{})
 		if err != nil {
 			log.Fatalf("method call failed: %v", err)
 		}
@@ -42,7 +42,7 @@ func main() {
 			fmt.Println("ok")
 		}
 	} else {
-		_, err = c.Method(context.Background(), &boilerplate.Request{})
+		_, err = c.Method(context.Background(), &deshboard.BoilerplateRequest{})
 		if err != nil {
 			log.Fatalf("method call failed: %v", err)
 		} else {

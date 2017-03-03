@@ -1,8 +1,8 @@
-hash: 1e7391b2584a4a7ae34caa36770017375bc3a704e3e6c4849b561e762000be75
-updated: 2017-02-21T16:16:34.768383765+01:00
+hash: e87bf031c6837a33b9afaba4fbd5c7e87e3e7a844d9ae1b897192840e44ee13f
+updated: 2017-03-03T10:55:42.896123098+01:00
 imports:
 - name: github.com/deshboard/boilerplate-proto
-  version: fed797238468483514aee67845bdfd45b3d6c9c3
+  version: 26041c92ef1a698ad08cfff9549763d6e3b92234
 - name: github.com/golang/protobuf
   version: 69b215d01a5606c843240eab4937eab3acee6530
   subpackages:
